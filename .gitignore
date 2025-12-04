@@ -106,3 +106,6 @@ temp/
 *.sqlite3
 .vercel
 .env*.local
+
+# Build artifacts
+api/
