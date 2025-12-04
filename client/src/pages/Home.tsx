@@ -6,21 +6,65 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, ShieldCheck, Gamepad2, Users, CheckCircle2, Globe, Activity, Lock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const subscribeToMailerLite = async (email: string) => {
+    const apiKey = import.meta.env.VITE_MAILERLITE_API_KEY;
+    const groupId = import.meta.env.VITE_MAILERLITE_GROUP_ID;
+
+    if (!apiKey || !groupId) {
+      throw new Error("Configuração do MailerLite não encontrada");
+    }
+
+    try {
+      const response = await axios.post(
+        `https://api.mailerlite.com/api/v2/groups/${groupId}/subscribers`,
+        {
+          email: email,
+          resubscribe: true,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-MailerLite-ApiKey': apiKey,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        return { success: true, already_subscribed: true };
+      }
+
+      throw new Error(
+        error.response?.data?.error?.message ||
+        error.response?.data?.message ||
+        "Erro ao processar inscrição"
+      );
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
+
     setIsLoading(true);
-    // Simulação de envio
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("Solicitação recebida. Entraremos em contato.");
-    setEmail("");
-    setIsLoading(false);
+
+    try {
+      await subscribeToMailerLite(email);
+      toast.success("Inscrição realizada com sucesso! Entraremos em contato em breve.");
+      setEmail("");
+    } catch (error: any) {
+      console.error("Erro ao se inscrever:", error);
+      toast.error(error.message || "Erro ao processar inscrição. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
