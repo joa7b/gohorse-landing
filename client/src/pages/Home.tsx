@@ -38,7 +38,7 @@ export default function Home() {
                 APRENDA A <span className="underline decoration-4 decoration-black underline-offset-8">DOMAR</span>.
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground font-medium max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Você já tem o capital. O que falta é a estratégia. Teste teses globais, opere opções e cripto em tempo real. <span className="text-black font-bold bg-primary/20 px-1">Sem arriscar seu patrimônio.</span>
+                Teste teses globais, opere opções e cripto em tempo real. <span className="text-black font-bold bg-primary/20 px-1">Sem arriscar seu patrimônio.</span>
               </p>
               
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto lg:mx-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" id="waitlist">
@@ -194,7 +194,7 @@ export default function Home() {
                 PARA VOCÊ.
               </h2>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed">
-                Esqueça os apps coloridos de "guardar troco". O <strong>Go Horse</strong> é uma ferramenta profissional. Dados em tempo real, execução instantânea e análises profundas. É o seu sandbox para construir riqueza geracional.
+                O <strong>Go Horse</strong> é uma ferramenta profissional. Dados em tempo real, execução instantânea e análises profundas. É o seu sandbox para construir riqueza geracional.
               </p>
               
               <div className="grid gap-6">
