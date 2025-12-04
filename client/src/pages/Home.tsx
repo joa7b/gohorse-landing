@@ -13,36 +13,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribeToMailerLite = async (email: string) => {
-    const apiKey = import.meta.env.VITE_MAILERLITE_API_KEY;
-    const groupId = import.meta.env.VITE_MAILERLITE_GROUP_ID;
-
-    if (!apiKey || !groupId) {
-      throw new Error("Configuração do MailerLite não encontrada");
-    }
-
     try {
-      const response = await axios.post(
-        `https://api.mailerlite.com/api/v2/groups/${groupId}/subscribers`,
-        {
-          email: email,
-          resubscribe: true,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-MailerLite-ApiKey': apiKey,
-          },
-        }
-      );
+      const response = await axios.post('/api/subscribe', {
+        email: email,
+      });
 
       return response.data;
     } catch (error: any) {
-      if (error.response?.status === 409) {
-        return { success: true, already_subscribed: true };
-      }
-
       throw new Error(
-        error.response?.data?.error?.message ||
+        error.response?.data?.error ||
         error.response?.data?.message ||
         "Erro ao processar inscrição"
       );

@@ -108,4 +108,4 @@ temp/
 .env*.local
 
 # Build artifacts
-api/
+api/index.js
